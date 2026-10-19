@@ -1,0 +1,45 @@
+# Maintainer: Md Asif <asifarbaj@gmail.com>
+
+pkgbase=skipper
+pkgname=('skipper' 'mpv-skipper')
+pkgver=0.2.0
+pkgrel=1
+arch=('any')
+url="https://github.com/anisthdev/skipper"
+license=('MIT')
+makedepends=('python-build' 'python-installer' 'python-hatchling')
+checkdepends=('python-guessit')
+source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+# Run updpkgsums once the v$pkgver tag is on GitHub.
+sha256sums=('SKIP')
+
+build() {
+  cd "$pkgbase-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$pkgbase-$pkgver"
+  python -m unittest discover -s tests
+}
+
+package_skipper() {
+  pkgdesc="Find intro, recap and credits timestamps for TV and anime episode files"
+  depends=('python' 'python-guessit')
+  optdepends=('ffmpeg: read episode durations with ffprobe (needed for anime unless --duration-ms is passed)')
+  install=skipper.install
+
+  cd "$pkgbase-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+  install -Dm644 README.md config.example.toml -t "$pkgdir/usr/share/doc/$pkgname/"
+}
+
+package_mpv-skipper() {
+  pkgdesc="mpv script that adds intro, recap and credits chapters using skipper"
+  depends=('mpv' "skipper=$pkgver")
+
+  cd "$pkgbase-$pkgver"
+  install -Dm644 mpv/skipper.lua -t "$pkgdir/etc/mpv/scripts/"
+  install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
+}

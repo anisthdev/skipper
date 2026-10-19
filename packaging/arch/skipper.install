@@ -1,0 +1,8 @@
+post_install() {
+  cat <<'EOF'
+==> TV lookups need a TMDB API read access token. To set it up:
+      mkdir -p ~/.config/skipper
+      install -m 600 /usr/share/doc/skipper/config.example.toml ~/.config/skipper/config.toml
+    then put your token in [tmdb] token. Without it only anime can be looked up.
+EOF
+}

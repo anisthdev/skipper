@@ -1,0 +1,17 @@
+# skipper configuration. Copy to ~/.config/skipper/config.toml and keep it
+# private (chmod 600), since it holds your TMDB token.
+#
+# Each setting can be overridden by an environment variable or a command-line
+# flag (see `skipper --help`). A flag beats an environment variable, which
+# beats this file.
+
+[tmdb]
+# TMDB API read access token (TMDB -> Settings -> API), the long "eyJ..." one.
+# Without it only anime can be looked up.
+# Env: SKIPPER_TMDB_TOKEN, flag: --tmdb-token
+token = ""
+
+[anime]
+# Anime title lookup providers, tried in this order. Choose from "anilist", "jikan".
+# Env: SKIPPER_ANIME_PROVIDERS="jikan,anilist", flag: --anime-providers jikan,anilist
+providers = ["anilist", "jikan"]
