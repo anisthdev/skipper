@@ -102,13 +102,20 @@ chapter_match_tolerance_ms=5000 # reuse existing chapters this close
 - `mpv-skipper`: the mpv script, installed to `/etc/mpv/scripts/`, so remove any copy in
   `~/.config/mpv/scripts/` or it runs twice
 
-To build from this checkout before a release is tagged, put a tarball where makepkg
-expects the download:
+To install the current release:
+
+```sh
+cd packaging/arch
+makepkg -si
+```
+
+To test unreleased changes, put a tarball of this checkout where makepkg expects the
+download, and skip the checksum (it only matches the tagged release):
 
 ```sh
 cd packaging/arch
 git -C ../.. archive --prefix=skipper-0.2.0/ -o "$PWD/skipper-0.2.0.tar.gz" HEAD
-makepkg -si
+makepkg -si --skipchecksums
 ```
 
 ## Development

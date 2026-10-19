@@ -10,8 +10,7 @@ license=('MIT')
 makedepends=('python-build' 'python-installer' 'python-hatchling')
 checkdepends=('python-guessit')
 source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
-# Run updpkgsums once the v$pkgver tag is on GitHub.
-sha256sums=('SKIP')
+sha256sums=('5957336ece7810d06293f089675a9463e073ac7be6ed83d4ac5d50088f0cd7e6')
 
 build() {
   cd "$pkgbase-$pkgver"
