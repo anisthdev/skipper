@@ -1,7 +1,8 @@
 # Maintainer: Md Asif <asifarbaj@gmail.com>
 
-pkgbase=skipper
-pkgname=('skipper' 'mpv-skipper')
+_name=skipper
+pkgbase=totoro-skipper
+pkgname=('totoro-skipper' 'totoro-mpv-skipper')
 pkgver=0.2.0
 pkgrel=1
 arch=('any')
@@ -9,36 +10,42 @@ url="https://github.com/anisthdev/skipper"
 license=('MIT')
 makedepends=('python-build' 'python-installer' 'python-hatchling')
 checkdepends=('python-guessit')
-source=("$pkgbase-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+source=("$_name-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('5957336ece7810d06293f089675a9463e073ac7be6ed83d4ac5d50088f0cd7e6')
 
 build() {
-  cd "$pkgbase-$pkgver"
+  cd "$_name-$pkgver"
   python -m build --wheel --no-isolation
 }
 
 check() {
-  cd "$pkgbase-$pkgver"
+  cd "$_name-$pkgver"
   python -m unittest discover -s tests
 }
 
-package_skipper() {
+package_totoro-skipper() {
+  provides=('skipper')
+  conflicts=('skipper')
+  replaces=('skipper')
   pkgdesc="Find intro, recap and credits timestamps for TV and anime episode files"
   depends=('python' 'python-guessit')
   optdepends=('ffmpeg: read episode durations with ffprobe (needed for anime unless --duration-ms is passed)')
   install=skipper.install
 
-  cd "$pkgbase-$pkgver"
+  cd "$_name-$pkgver"
   python -m installer --destdir="$pkgdir" dist/*.whl
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
   install -Dm644 README.md config.example.toml -t "$pkgdir/usr/share/doc/$pkgname/"
 }
 
-package_mpv-skipper() {
+package_totoro-mpv-skipper() {
+  provides=('mpv-skipper')
+  conflicts=('mpv-skipper')
+  replaces=('mpv-skipper')
   pkgdesc="mpv script that adds intro, recap and credits chapters using skipper"
-  depends=('mpv' "skipper=$pkgver")
+  depends=('mpv' "totoro-skipper=$pkgver")
 
-  cd "$pkgbase-$pkgver"
+  cd "$_name-$pkgver"
   install -Dm644 mpv/skipper.lua -t "$pkgdir/etc/mpv/scripts/"
   install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname/"
 }
